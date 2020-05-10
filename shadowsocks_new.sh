@@ -293,7 +293,9 @@ modify_ALL(){
 	modify_API
 	modify_MU_REGEX
 	modify_MU_SUFFIX
-	modify_MYSQL
+	if [[ ${API} == "glzjinmod" ]]; then
+		modify_MYSQL
+	fi
 	modify_NODE_ID
 	modify_SPEEDTEST
 	modify_WEBAPI_TOKEN
