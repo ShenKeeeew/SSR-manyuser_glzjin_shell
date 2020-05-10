@@ -67,26 +67,24 @@ basic_installation(){
 }
 
 dependency_installation(){
-		${INS} -y install python-setuptools  && easy_install pip
-		if [[ $? -ne 0 ]]; then
-			if [[ ${ID} == "centos" ]];then
-				echo -e "${OK} ${GreenBG} 尝试 yum 安装 python-pip ${Font}"
-				sleep 2
-				yum -y install python-pip
-				yum -y install python3-pip
+		${INS} -y install python-setuptools
+		if [[ ${ID} == "centos" ]];then
+			echo -e "${OK} ${GreenBG} 尝试 yum 安装 python-pip ${Font}"
+			sleep 2
+			yum -y install python-pip
+			yum -y install python3-pip
+		else
+			echo -e "${OK} ${GreenBG} 尝试 apt 安装 python-pip ${Font}"
+			sleep 2
+			apt-get install python-pip -y
+			apt-get install python3-pip -y 
+		fi
+		if [[ $? -eq 0 ]]; then
+			echo -e "${OK} ${GreenBG} pip installation Successfully ${Font}"
+			sleep 1
 			else
-				echo -e "${OK} ${GreenBG} 尝试 apt 安装 python-pip ${Font}"
-				sleep 2
-				apt-get install python-pip -y
-				apt-get install python3-pip -y 
-			fi
-			if [[ $? -eq 0 ]]; then
-				echo -e "${OK} ${GreenBG} pip installation Successfully ${Font}"
-				sleep 1
-				else
-				echo -e "${Error} ${RedBG} pip installation FAIL ${Font}"
-				exit 1
-			fi
+			echo -e "${Error} ${RedBG} pip installation FAIL ${Font}"
+			exit 1
 		fi
 }
 development_tools_installation(){
