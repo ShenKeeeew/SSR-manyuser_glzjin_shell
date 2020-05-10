@@ -164,6 +164,7 @@ stderr_logfile = /var/log/ssmu.log
 user = root
 autostart = true
 autorestart = true
+stopasgroup=true
 EOF
 
 	echo -e "${OK} ${GreenBG} supervisor 配置导入成功 ${Font}"
@@ -178,6 +179,7 @@ stderr_logfile = /var/log/ssmu.log
 user = root
 autostart = true
 autorestart = true
+stopasgroup=true
 EOF
 
 	echo -e "${OK} ${GreenBG} supervisor 配置导入成功 ${Font}"
@@ -192,6 +194,7 @@ stderr_logfile = /var/log/ssmu.log
 user = root
 autostart = true
 autorestart = true
+stopasgroup=true
 EOF
 
 	echo -e "${OK} ${GreenBG} supervisor 配置导入成功 ${Font}"
