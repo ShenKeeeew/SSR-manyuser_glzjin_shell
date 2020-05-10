@@ -71,11 +71,13 @@ dependency_installation(){
 			if [[ ${ID} == "centos" ]];then
 				echo -e "${OK} ${GreenBG} 尝试 yum 安装 python-pip ${Font}"
 				sleep 2
-				yum -y install python-pip 
+				yum -y install python-pip
+				yum -y install python3-pip
 			else
 				echo -e "${OK} ${GreenBG} 尝试 apt 安装 python-pip ${Font}"
 				sleep 2
 				apt-get install python-pip -y
+				apt-get install python3-pip -y 
 			fi
 			if [[ $? -eq 0 ]]; then
 				echo -e "${OK} ${GreenBG} pip installation Successfully ${Font}"
@@ -127,14 +129,14 @@ SSR_dependency_installation(){
 		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 		ldconfig
 		${INS} install python-devel libffi-devel openssl-devel -y
-		pip install -r requirements.txt
-		pip install requests		
+		pip3 install -r requirements.txt
+		pip3 install requests		
 	else
 		cd ${shadowsocks_folder}
 		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 		ldconfig
-		pip install -r requirements.txt
-		pip install requests
+		pip3 install -r requirements.txt
+		pip3 install requests
 	fi
 }
 supervisor_installation(){
@@ -173,7 +175,7 @@ EOF
 supervisor_conf_modify_ubuntu(){
 	cat>${suerpvisor_conf_dir}/shadowsocks.conf<<EOF
 [program:shadowsocks]
-command = python ${shadowsocks_folder}/server.py
+command = python3 ${shadowsocks_folder}/server.py
 stdout_logfile = /var/log/ssmu.log
 stderr_logfile = /var/log/ssmu.log
 user = root
@@ -187,7 +189,7 @@ EOF
 supervisor_conf_modify_centos(){
 	cat>>/etc/supervisord.conf<<EOF
 [program:shadowsocks]
-command = python ${shadowsocks_folder}/server.py
+command = python3 ${shadowsocks_folder}/server.py
 stdout_logfile = /var/log/ssmu.log
 stderr_logfile = /var/log/ssmu.log
 user = root
@@ -326,7 +328,7 @@ SSR_installation(){
 	development_tools_installation
 	libsodium_installation
 	
-	cd ${shadowsocks_install_folder} && git clone -b manyuser https://github.com/ShenKeeeew/shadowsocks.git "/root/shadowsocks" 
+	cd ${shadowsocks_install_folder} && git clone -b manyuser https://github.com/Anankke/shadowsocks-mod.git "/root/shadowsocks" 
 	cd shadowsocks && cp apiconfig.py userapiconfig.py && cp config.json user-config.json
 	
 	SSR_dependency_installation
