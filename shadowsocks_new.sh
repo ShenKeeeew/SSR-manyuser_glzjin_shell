@@ -16,6 +16,7 @@ supervisor_dir="/etc/supervisor"
 suerpvisor_conf_dir="${supervisor_dir}/conf.d"
 shadowsocks_folder="${shadowsocks_install_folder}/shadowsocks"
 config="${shadowsocks_folder}/userapiconfig.py"
+jsonconfig="${shadowsocks_folder}/user-config.json"
 debian_sourcelist="/etc/apt/source.list"
 
 #fonts color
@@ -242,6 +243,9 @@ modify_MYSQL_PASS(){
 modify_MYSQL_DB(){
 	sed -i '/MYSQL_DB/c \MYSQL_DB = '\'${MYSQL_DB}\''' ${config}
 }
+modify_OutBind(){
+	sed -i '/out_bind/c \    "out_bind" : "\'${OutBind}\",'' ${jsonconfig}
+}
 modify_MYSQL(){
 	modify_MYSQL_HOST
 	modify_MYSQL_PASS
@@ -274,7 +278,9 @@ common_set(){
 	stty erase '^H' && read -p "MU_SUFFIX(default:zhaoj.in):" MU_SUFFIX
 	[[ -z ${MU_SUFFIX} ]] && MU_SUFFIX="zhaoj.in"
 	stty erase '^H' && read -p "MU_REGEX(default:%5m%id.%suffix):" MU_REGEX
-	[[ -z ${MU_REGEX} ]] && MU_REGEX="%5m%id.%suffix"	
+	[[ -z ${MU_REGEX} ]] && MU_REGEX="%5m%id.%suffix"
+	stty erase '^H' && read -p "out_bind(ipaddress,default:0.0.0.0):" OutBind
+	[[ -z ${OutBind} ]] && OutBind="0.0.0.0"
 }
 modwebapi_set(){
 	stty erase '^H' && read -p "WEBAPI_URL(example: https://www.zhaoj.in):" WEBAPI_URL
@@ -300,6 +306,7 @@ modify_ALL(){
 	fi
 	modify_NODE_ID
 	modify_SPEEDTEST
+	modify_OutBind
 	modify_WEBAPI_TOKEN
 	modify_WEBAPI_URL
 }
@@ -430,6 +437,7 @@ modify_management(){
 	echo -e "11.MYSQL_USER（数据库用户名）"
 	echo -e "12.MYSQL_PASSWORD（数据库密码）"
 	echo -e "13.MYSQL_DB（数据库名称）"
+	echo -e "14.out_bind（出口ip）"
 	read -p "input:" modify
 	case ${modify} in 
 		1)
@@ -470,6 +478,9 @@ modify_management(){
 			;;
 		13)
 			modify_module "MYSQL_DB"
+			;;
+		14)
+			modify_module "OutBind"
 			;;
 		*)
 			echo -e "${RedBG} 请输入正确的序号 ${Font}"
