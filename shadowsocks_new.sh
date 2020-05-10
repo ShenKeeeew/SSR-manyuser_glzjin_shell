@@ -124,11 +124,16 @@ libsodium_installation(){
 SSR_dependency_installation(){
 	if [[ ${ID} == "centos" ]]; then
 		cd ${shadowsocks_folder}
+		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
+		ldconfig
 		${INS} install python-devel libffi-devel openssl-devel -y
 		pip install -r requirements.txt
 		pip install requests		
 	else
-		pip install cymysql==0.8.4
+		cd ${shadowsocks_folder}
+		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
+		ldconfig
+		pip install -r requirements.txt
 		pip install requests
 	fi
 }
@@ -319,7 +324,7 @@ SSR_installation(){
 	development_tools_installation
 	libsodium_installation
 	
-	cd ${shadowsocks_install_folder} && git clone https://github.com/wulabing/shadowsocks.git 
+	cd ${shadowsocks_install_folder} && git clone -b manyuser-python-37 https://github.com/Tiktoking/shadowsocks.git "/root/shadowsocks" 
 	cd shadowsocks && cp apiconfig.py userapiconfig.py && cp config.json user-config.json
 	
 	SSR_dependency_installation
