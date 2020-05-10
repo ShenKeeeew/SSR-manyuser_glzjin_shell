@@ -135,8 +135,8 @@ SSR_dependency_installation(){
 		cd ${shadowsocks_folder}
 		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 		ldconfig
-		pip3 install -r requirements.txt
-		pip3 install requests
+		/usr/bin/pip3 install -r requirements.txt
+		/usr/bin/pip3 install requests
 	fi
 }
 supervisor_installation(){
