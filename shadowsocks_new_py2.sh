@@ -75,6 +75,7 @@ dependency_installation(){
 		else
 			echo -e "${OK} ${GreenBG} 尝试 apt 安装 python-pip ${Font}"
 			sleep 2
+			apt-get install git
 			apt-get install python-pip -y 
 		fi
 		if [[ $? -eq 0 ]]; then
